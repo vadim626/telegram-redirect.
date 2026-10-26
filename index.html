@@ -1,0 +1,587 @@
+ 
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="theme-color" content="#0b0d18">
+
+<title>AVA COMMUNITY</title>
+
+<style>
+
+:root{--bg:#0b0d18;--panel:#121626;--panel2:#191e30;--line:#2b3149;--txt:#f5f5ff;--muted:#929bb4;--purple:#9148ff;--pink:#c65cff;--green:#39d96b;--red:#ff4d58}
+
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:75px}
+
+body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+
+button,input,select,textarea{font:inherit}button,a{cursor:pointer}button{color:inherit}
+
+a{color:inherit;text-decoration:none}button:disabled{opacity:.4}
+
+header{position:sticky;top:0;z-index:9;background:#0b0d18ed;backdrop-filter:blur(15px);border-bottom:1px solid var(--line);padding:12px 3%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:14px}.logo{padding:10px;border-radius:11px;background:linear-gradient(135deg,#d75cff,#632aff);box-shadow:0 0 20px #8c45ff55}.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:2px}
+
+nav{display:flex;gap:15px;font-size:12px;color:#c5c9dd}
+
+.wrap{width:min(1250px,94%);margin:auto}.hero{padding:35px 0 20px}.eyebrow{font-size:10px;letter-spacing:2px;color:#cda2ff;font-weight:850}
+
+h1{font-size:clamp(38px,6vw,68px);line-height:1;letter-spacing:-2px;margin:14px 0}.gradient{background:linear-gradient(100deg,#fff,#dbb0ff,#9863ff);color:transparent;background-clip:text}
+
+p{line-height:1.75}.hero p,.muted{color:var(--muted);font-size:12px}.hero p{max-width:680px;font-size:14px}
+
+.btn{padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);font-size:12px;font-weight:750;color:var(--txt);display:inline-block}
+
+.primary{background:linear-gradient(120deg,#a348ff,#6035ff);border:0}.hero-actions{display:flex;gap:9px;flex-wrap:wrap}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}.stat{padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px}.stat span{display:block;color:var(--muted);font-size:10px}.stat strong{display:block;font-size:21px;margin-top:6px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,.8fr);gap:13px}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;min-width:0}
+
+.head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.head h2,.head h3{font-size:14px;margin:0}
+
+select,input,textarea{background:#0b0e19;color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:10px;font-size:12px;min-width:0;max-width:100%}
+
+.controls{display:flex;gap:6px;flex-wrap:wrap}#chart{width:100%;height:390px;display:block;background:#111522}
+
+.legend{padding:10px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:10px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%}
+
+.trade{padding:14px}.stats2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.stats2 .stat{padding:10px}.stats2 strong{font-size:15px}
+
+.field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:11px;color:var(--muted)}.field input,.field select,.field textarea{width:100%}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tradebtn{border:0;border-radius:10px;padding:14px 5px;font-size:12px;font-weight:850}.tradebtn small{display:block;margin-top:5px}.buy{background:#16883f}.sell{background:#b72f3a}
+
+.result{padding:12px;border:1px solid var(--line);background:#0b0e19;border-radius:10px;font-size:12px;line-height:1.8;margin-top:12px}
+
+.section{padding:36px 0}.section-title{margin-bottom:17px}.section-title h2{font-size:clamp(25px,4vw,35px);margin:8px 0;letter-spacing:-1px}.section-title p{color:var(--muted);font-size:12px;max-width:700px}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{padding:15px;background:linear-gradient(145deg,#181c2d,#101321);border:1px solid var(--line);border-radius:13px;min-width:0}.card h3{font-size:13px;margin:10px 0}.card p{font-size:11px;color:var(--muted)}.emoji{font-size:24px}.cardfoot{display:flex;justify-content:space-between;align-items:center;gap:5px}
+
+.progress{height:4px;background:#2b3046;border-radius:9px;overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#823cff,#d45cff)}
+
+.search{width:100%;margin-bottom:12px}.pattern-layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:12px}
+
+.pattern-menu{padding:8px;max-height:570px;overflow:auto}.pattern-btn{display:block;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:9px;padding:11px;margin-bottom:3px;font-size:11px}.pattern-btn.active,.pattern-btn:hover{background:#9148ff19;border-color:#9148ff66}.pattern-btn small{display:block;color:var(--muted);margin-top:4px}
+
+.detail{padding:17px}.detail h3{font-size:24px;margin:8px 0}.detail p{font-size:12px;color:#c5c9da}.diagram{padding:5px;background:#0b0e19;border:1px solid var(--line);border-radius:10px}.diagram canvas{display:block;width:100%;height:205px}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.answer{background:#0b0e19;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:left;font-size:12px}.answer.correct{border-color:var(--green)}.answer.wrong{border-color:var(--red)}
+
+.note{padding:13px;background:#9148ff13;border-left:3px solid var(--purple);border-radius:0 9px 9px 0;font-size:12px;line-height:1.8;margin:13px 0}
+
+.two-col{display:grid;grid-template-columns:230px minmax(0,1fr);gap:12px}.lesson-list{padding:8px;max-height:570px;overflow:auto}.lesson-item{width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:8px;padding:10px;margin-bottom:3px;font-size:11px}.lesson-item.active,.lesson-item:hover{border-color:#9148ff66;background:#9148ff15}
+
+.lesson-view{padding:19px}.lesson-view h3{font-size:23px}.lesson-view p,.lesson-view li{font-size:12px;line-height:1.9;color:#c5c9da}
+
+.dictionary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.term{padding:13px;background:var(--panel);border:1px solid var(--line);border-radius:10px}.term strong{font-size:12px}.term p{font-size:11px;color:var(--muted)}
+
+.profile{display:grid;grid-template-columns:1fr 1fr;gap:12px}.profile .panel{padding:20px}.big{font-size:38px;font-weight:900}
+
+.chatlog{display:grid;gap:8px;max-height:250px;overflow:auto;margin:12px 0}.msg{padding:11px;border:1px solid var(--line);border-radius:10px;font-size:12px;line-height:1.7;white-space:pre-wrap;max-width:92%}.bot{background:#191d2d}.user{justify-self:end;background:#7037b633}.chatform{display:flex;gap:8px}.chatform input{flex:1;width:50%}
+
+footer{padding:25px 0;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.8}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:#252039;border:1px solid #8952ca;padding:12px 16px;border-radius:10px;z-index:20;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:850px){nav{gap:8px}.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pattern-layout{grid-template-columns:205px minmax(0,1fr)}}
+
+@media(max-width:600px){nav{display:none}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr;gap:8px}.card{padding:11px}.card h3{font-size:12px}.card p{font-size:10px}.pattern-layout,.two-col{grid-template-columns:1fr}.pattern-menu{max-height:220px;display:grid;grid-template-columns:1fr 1fr;gap:3px}.lesson-list{max-height:210px;display:grid;grid-template-columns:1fr 1fr;gap:3px}.pattern-btn,.lesson-item{margin:0;padding:8px}.pattern-btn small{font-size:9px}.detail,.lesson-view{padding:13px}.dictionary{grid-template-columns:1fr 1fr}#chart{height:320px}.profile{grid-template-columns:1fr}.section{padding:28px 0}.answers{gap:6px}.answer{padding:10px;font-size:11px}}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a class="brand" href="#home"><span class="logo">AVA</span><span>AVA COMMUNITY<small>TRADING ACADEMY</small></span></a>
+
+<nav><a href="#terminal">График</a> · <a href="#patterns">Паттерны</a> · <a href="#courses">Обучение</a> · <a href="#progress">Прогресс</a></nav>
+
+<a class="btn primary" href="#patterns">Тренажёр →</a>
+
+</header>
+
+<main class="wrap" id="home">
+
+<section class="hero">
+
+<div class="eyebrow">● AVA COMMUNITY / TRADING EDUCATION</div>
+
+<h1>AVA <span class="gradient">COMMUNITY</span></h1>
+
+<p>Изучай рынок, разбирай паттерны и проверяй свои решения на учебном графике. Практика, обучение и прогресс — в одном месте.</p>
+
+<div class="hero-actions"><a class="btn primary" href="#patterns">Тренировать паттерны ↗</a><a class="btn" href="#courses">Все уроки</a></div>
+
+</section>
+
+<div class="stats">
+
+<div class="stat"><span>ПАТТЕРНЫ</span><strong id="patternTotal">24</strong></div>
+
+<div class="stat"><span>УРОКИ</span><strong>90</strong></div>
+
+<div class="stat"><span>ИНСТРУМЕНТЫ</span><strong id="pairTotal">40</strong></div>
+
+<div class="stat"><span>ПРОГРЕСС</span><strong id="quickProgress">0%</strong></div>
+
+</div>
+
+<section id="terminal">
+
+<div class="layout">
+
+<div class="panel">
+
+<div class="head"><div><h2>Свечной график</h2><div class="muted">Учебные синтетические данные</div></div>
+
+<div class="controls"><select id="asset"></select><select id="tf"><option>M1</option><option selected>M5</option><option>M15</option><option>M30</option><option>H1</option><option>H4</option><option>D1</option></select><button class="btn" id="refresh">↻</button></div></div>
+
+<canvas id="chart"></canvas><div class="legend"><span><i class="dot" style="background:var(--green)"></i> Рост</span><span><i class="dot" style="background:var(--red)"></i> Снижение</span><span id="candleCount"></span></div>
+
+</div>
+
+<div class="panel">
+
+<div class="head"><h3>Демо-терминал</h3><span class="muted">ВИРТУАЛЬНЫЙ СЧЁТ</span></div>
+
+<div class="trade">
+
+<div class="stats2"><div class="stat"><span>БАЛАНС</span><strong id="balance">$1,000.00</strong></div><div class="stat"><span>РЕЗУЛЬТАТ</span><strong id="pnl">$0.00</strong></div><div class="stat"><span>СДЕЛКИ</span><strong id="trades">0</strong></div><div class="stat"><span>АКТИВ</span><strong id="activeAsset">EUR/USD</strong></div></div>
+
+<div class="field"><label>Сумма демо-сделки ($)</label><input id="amount" type="number" value="10" min="1" max="1000"></div>
+
+<div class="field"><label>Время симуляции</label><select id="duration"><option value="5">5 секунд</option><option value="10" selected>10 секунд</option><option value="20">20 секунд</option></select></div>
+
+<div class="two"><button class="tradebtn buy" id="buy">▲ КУПИТЬ<small>ДЕМО</small></button><button class="tradebtn sell" id="sell">▼ ПРОДАТЬ<small>ДЕМО</small></button></div>
+
+<div class="result" id="tradeResult">Выбери направление для демонстрационной сделки.</div>
+
+<p class="muted">Сделки не подключены к брокеру. Результаты условные, не сигналы.</p>
+
+</div></div></div>
+
+</section>
+
+<section class="section" id="patterns">
+
+<div class="section-title"><div class="eyebrow">01 / PATTERN LAB</div><h2>Лаборатория паттернов</h2><p>Выбери фигуру. Она появится в учебной схеме. Выбери направление сделки, проверь ответ и прочитай объяснение.</p></div>
+
+<div class="pattern-layout">
+
+<div class="panel"><div class="head"><h3>Выбери фигуру</h3></div><div style="padding:10px 10px 0"><input id="patternSearch" class="search" placeholder="⌕ Найти паттерн..."></div><div id="patternMenu" class="pattern-menu"></div></div>
+
+<div class="panel detail" id="patternDetail"></div>
+
+</div>
+
+</section>
+
+<section class="section" id="courses">
+
+<div class="section-title"><div class="eyebrow">02 / ACADEMY</div><h2>Большая программа обучения</h2><p>30 модулей, по три урока в каждом. От базовых свечей до статистики и собственной системы.</p></div>
+
+<div class="grid" id="moduleCards"></div>
+
+</section>
+
+<section class="section" id="lessons">
+
+<div class="section-title"><div class="eyebrow">03 / STUDY ROOM</div><h2>Учебный кабинет</h2><p>Теория, практические задания и вопросы для самопроверки.</p></div>
+
+<input id="lessonSearch" class="search" placeholder="⌕ Найти урок...">
+
+<div class="two-col"><div class="panel"><div id="lessonList" class="lesson-list"></div></div><article id="lessonView" class="panel lesson-view"></article></div>
+
+</section>
+
+<section class="section" id="practice">
+
+<div class="section-title"><div class="eyebrow">04 / PRACTICE DESK</div><h2>Практика и контроль риска</h2><p>Считай условный риск и фиксируй логику решений до проверки результата.</p></div>
+
+<div class="grid">
+
+<div class="panel" style="padding:16px"><h3>🧮 Калькулятор риска</h3><div class="field"><label>Размер счёта ($)</label><input id="capital" type="number" value="1000"></div><div class="field"><label>Риск (%)</label><input id="risk" type="number" value="1" min=".1" max="100" step=".1"></div><div class="field"><label>Стоп-расстояние (%)</label><input id="stop" type="number" value="2" min=".01" max="100" step=".01"></div><button class="btn primary" id="calc">Рассчитать</button><div class="result" id="riskResult">Укажи параметры расчёта.</div></div>
+
+<div class="panel" style="padding:16px"><h3>📝 Торговый журнал</h3><div class="field"><label>Инструмент</label><input id="jAsset" placeholder="EUR/USD"></div><div class="field"><label>Гипотеза</label><textarea id="jIdea" rows="3" placeholder="Контекст, паттерн, подтверждение, отмена"></textarea></div><div class="field"><label>Разбор</label><textarea id="jReview" rows="2" placeholder="Что получилось? Что улучшить?"></textarea></div><button class="btn primary" id="saveJournal">Сохранить</button> <button class="btn" id="exportJournal">Экспорт</button><div id="journalList"></div></div>
+
+<div class="panel" style="padding:16px"><h3>☑ Чек-лист</h3><div id="checklist"></div><button class="btn" id="resetChecklist">Сбросить</button><p class="muted">Контекст → формация → подтверждение → риск → условие отмены.</p></div>
+
+</div>
+
+</section>
+
+<section class="section" id="quiz">
+
+<div class="section-title"><div class="eyebrow">05 / KNOWLEDGE CHECK</div><h2>Тест трейдера</h2></div>
+
+<div class="panel" style="padding:20px"><div id="quizCounter" class="muted"></div><h3 id="question"></h3><div id="options" class="answers"></div><p id="feedback" class="muted"></p><div class="hero-actions"><button class="btn primary" id="nextQ">Следующий вопрос →</button><button class="btn" id="restartQ">Заново</button></div></div>
+
+</section>
+
+<section class="section" id="dictionary">
+
+<div class="section-title"><div class="eyebrow">06 / GLOSSARY</div><h2>Словарь трейдера</h2></div>
+
+<input id="termSearch" class="search" placeholder="⌕ Поиск термина..."><div id="terms" class="dictionary"></div>
+
+</section>
+
+<section class="section" id="progress">
+
+<div class="section-title"><div class="eyebrow">07 / MY PROGRESS</div><h2>Личный прогресс</h2><p>Отмеченные уроки хранятся локально в браузере.</p></div>
+
+<div class="profile"><div class="panel"><div class="muted">ЗАВЕРШЕНО УРОКОВ</div><div id="percent" class="big">0%</div><div class="progress"><span id="progressBar"></span></div><p id="doneCount" class="muted">0 из 90</p><button id="continue" class="btn primary">Продолжить обучение →</button> <button id="exportProgress" class="btn">Экспорт</button></div><div class="panel"><h3>🏆 Достижения</h3><div id="achievements"></div></div></div>
+
+</section>
+
+<section class="section" id="ava">
+
+<div class="section-title"><div class="eyebrow">08 / AVA ASSISTANT</div><h2>Помощник AVA</h2><p>Учебные ответы по паттернам и основам анализа.</p></div>
+
+<div class="panel" style="padding:18px"><div class="brand"><span class="logo">AVA</span><span>Учебный помощник<small>AVA COMMUNITY</small></span></div><div id="chatLog" class="chatlog"><div class="msg bot">Привет! Спроси про бычий флаг, чашу с ручкой, свечи или риск.</div></div><form id="chatForm" class="chatform"><input id="chatInput" maxlength="500" placeholder="Задай вопрос..." required><button class="btn primary">Отправить ↗</button></form><p class="muted">Демонстрационный помощник без подключения к внешней нейросети.</p></div>
+
+</section>
+
+<section class="section"><div class="panel" style="text-align:center;padding:30px 15px;background:radial-gradient(ellipse at top,#8b39ff30,transparent 70%),var(--panel)"><div class="eyebrow">AVA COMMUNITY</div><h2>УЧИСЬ. ПРАКТИКУЙСЯ. <span class="gradient">РАЗВИВАЙСЯ.</span></h2><p class="muted">Материалы, практика и разборы в одном месте.</p><a id="telegram" class="btn primary" href="https://t.me/" target="_blank" rel="noopener">Открыть Telegram ↗</a></div></section>
+
+</main>
+
+<footer><div class="wrap">AVA COMMUNITY · Образовательная платформа.<br>Графики и сделки демонстрационные, без реальных котировок. Паттерны не гарантируют результат. Трейдинг сопряжён с риском потери капитала.</div></footer>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+"use strict";
+
+const $=id=>document.getElementById(id),KEY="ava_community_v1";
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function fmt(n){return "$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function notify(s){let e=$("toast");e.textContent=s;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),2200)}
+
+function download(name,obj){let u=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+
+const pairs=["EUR/USD","GBP/USD","USD/JPY","USD/CHF","USD/CAD","AUD/USD","NZD/USD","EUR/GBP","EUR/JPY","EUR/CHF","EUR/CAD","EUR/AUD","EUR/NZD","GBP/JPY","GBP/CHF","GBP/CAD","GBP/AUD","GBP/NZD","AUD/JPY","AUD/CAD","AUD/CHF","AUD/NZD","NZD/JPY","NZD/CAD","NZD/CHF","CAD/JPY","CAD/CHF","CHF/JPY","EUR/USD OTC","GBP/USD OTC","GBP/JPY OTC","USD/JPY OTC","AUD/USD OTC","EUR/GBP OTC","USD/CHF OTC","USD/CAD OTC","NZD/USD OTC","EUR/JPY OTC","AUD/JPY OTC","CAD/JPY OTC"];
+
+$("asset").innerHTML=pairs.map(p=>`<option>${p}</option>`).join("");$("pairTotal").textContent=pairs.length;$("patternTotal").textContent="24";
+
+const modules=[
+
+["Основы рынка","Участники, котировки и спред","📘","Цена формируется взаимодействием заявок и участников рынка.","Разные источники данных могут отличаться. Цена не гарантирует исполнение."],
+
+["Свечи OHLC","Тела, тени и комбинации","🕯️","Свеча отображает открытие, закрытие, максимум и минимум за интервал.","Одна свеча не является самостоятельным прогнозом."],
+
+["Структура рынка","HH, HL, LH, LL","📈","Последовательность локальных экстремумов помогает описать движение.","Структура зависит от таймфрейма."],
+
+["Тренд и диапазон","Импульсы и коррекции","〽️","Тренд имеет направленную структуру, диапазон — колебания между областями.","Режим рынка может меняться."],
+
+["Уровни","Поддержка и сопротивление","🧱","Уровни — области возможной реакции, а не гарантированные линии.","Пробой возможен в любой момент."],
+
+["Price Action","Поведение цены","🎯","Анализируй импульс, коррекцию и реакцию в контексте.","Одна формация может иметь разный смысл в разных условиях."],
+
+["Бычий флаг","Импульс вверх и коррекция","🚩","После импульса вверх возникает небольшой нисходящий канал.","Возможен ложный пробой."],
+
+["Медвежий флаг","Импульс вниз и коррекция","🏴","После падения цена временно корректируется вверх.","Коррекция не гарантирует продолжение снижения."],
+
+["Чаша с ручкой","Округлое основание","☕","Округлое восстановление к сопротивлению и более короткая консолидация.","Формация на реальном рынке не бывает идеальной."],
+
+["Двойная вершина/дно","Два теста области","⛰️","Два похожих экстремума с промежуточным уровнем.","Подтверждение требует выхода за промежуточный уровень."],
+
+["Голова и плечи","Три пика","🗻","Центральный пик выше двух плеч, впадины образуют линию шеи.","Формация может оказаться ложной."],
+
+["Перевёрнутая голова и плечи","Три впадины","🔄","Центральная впадина глубже боковых.","Нужны контекст и подтверждение."],
+
+["Восходящий треугольник","Растущие минимумы","🔺","Верхняя граница близка к горизонтальной, минимумы растут.","Пробой вверх не гарантирован."],
+
+["Нисходящий треугольник","Снижающиеся максимумы","🔻","Нижняя граница близка к горизонтальной, максимумы снижаются.","Возможен пробой в обе стороны."],
+
+["Симметричный треугольник","Сужение колебаний","🔷","Максимумы снижаются, минимумы повышаются.","Направление заранее неизвестно."],
+
+["Бычий вымпел","Импульс и консолидация","🎏","После импульса вверх появляется небольшая сходящаяся фигура.","Пробой может быть ложным."],
+
+["Медвежий вымпел","Падение и консолидация","🏴","После импульса вниз возникает сужение диапазона.","Продолжение не гарантировано."],
+
+["Восходящий клин","Сходящиеся границы вверх","📐","Обе границы поднимаются и сближаются.","Контекст важнее названия."],
+
+["Нисходящий клин","Сходящиеся границы вниз","📉","Обе границы направлены вниз и сближаются.","Разворот не гарантирован."],
+
+["Прямоугольник","Боковой диапазон","▭","Цена колеблется между верхней и нижней границами.","Касание границы — не пробой."],
+
+["Каналы","Параллельные границы","🛤️","Движение описывается приблизительно параллельными линиями.","Границы могут нарушаться."],
+
+["Пробой и ретест","Повторная проверка уровня","↗️","После пробоя цена иногда возвращается к области.","Ретест может не произойти."],
+
+["Ложный пробой","Выход и возврат","⚠️","Цена выходит за уровень, но возвращается внутрь.","Нужны чёткие правила определения."],
+
+["Пин-бар","Длинная тень","📍","Свеча показывает отклонение цены от экстремума.","Контекст важнее одной свечи."],
+
+["Поглощение","Перекрытие тел свечей","🟥","Тело новой свечи перекрывает тело предыдущей.","Определение зависит от правил стратегии."],
+
+["Риск-менеджмент","Размер позиции и риск","🛡️","До сделки определяют допустимую потерю и условия отмены.","Стоп не гарантирует цену исполнения."],
+
+["Психология","FOMO и дисциплина","🧠","Эмоции могут заставить нарушать торговый план.","Убыток сам по себе не доказывает плохое решение."],
+
+["Объём и волатильность","Активность рынка","🌊","Объём зависит от источника данных, волатильность — изменчивость цены.","Тиковый объём не равен глобальному объёму Forex."],
+
+["Торговые сессии","Время активности","🌍","Активность меняется по времени суток и инструменту.","Проверяй расписание инструмента."],
+
+["Статистика и система","Бэктест и журнал","📊","Проверяй одинаковые правила на достаточной выборке.","Прошлые результаты не гарантируют будущие."]
+
+];
+
+const detail=[
+
+["Рынок и котировки","Разберись в спреде, участниках и источниках данных.","Назови ограничения выбранного источника."],
+
+["Свеча OHLC","Определи четыре значения свечи.","Найди свечу с длинной тенью и опиши контекст."],
+
+["Структура","Отметь последние максимумы и минимумы.","Что подтвердит смену структуры?"],
+
+["Режим рынка","Отличай тренд от диапазона.","Какой факт опровергнет гипотезу?"],
+
+["Зоны","Отметь области прошлой реакции.","Запиши альтернативу при пробое."],
+
+["Контекст","Сначала анализируй структуру, затем паттерн.","Объясни, почему формация подходит этому контексту."],
+
+["Бычий флаг","Найди импульс и коррекционный канал.","Что подтвердит пробой и что отменит идею?"],
+
+["Медвежий флаг","Найди импульс вниз и коррекцию.","Почему падение не гарантировано?"],
+
+["Чаша с ручкой","Найди основание и короткую консолидацию.","Какие признаки делают фигуру слабой?"],
+
+["Двойная вершина/дно","Отметь два экстремума и промежуточный уровень.","Что подтвердит фигуру?"],
+
+["Голова и плечи","Отметь плечи, голову и шею.","Как распознать ложный пробой?"],
+
+["Перевёрнутая фигура","Сравни три впадины.","Какие есть альтернативные объяснения?"],
+
+["Восходящий треугольник","Найди верхнюю зону и растущие минимумы.","Почему пробой не гарантирован?"],
+
+["Нисходящий треугольник","Найди нижнюю зону и снижающиеся максимумы.","Где сценарий будет отменён?"],
+
+["Симметричный треугольник","Найди сужение диапазона.","Почему нельзя заранее знать направление?"],
+
+["Бычий вымпел","Отдели импульс от консолидации.","Что опровергнет сценарий продолжения?"],
+
+["Медвежий вымпел","Найди импульс вниз и сужение.","Почему формация может не сработать?"],
+
+["Восходящий клин","Нарисуй сходящиеся восходящие границы.","Какой сценарий опровергает идею?"],
+
+["Нисходящий клин","Нарисуй сходящиеся нисходящие границы.","Почему разворот не обязателен?"],
+
+["Прямоугольник","Отметь повторяющиеся границы.","Как отличить пробой от касания?"],
+
+["Каналы","Проведи параллельные границы.","Что означает выход из канала?"],
+
+["Ретест","Отметь пробой и возврат к уровню.","Что если ретеста не будет?"],
+
+["Ложный пробой","Найди выход и возврат внутрь.","Как избежать поспешного решения?"],
+
+["Пин-бар","Сравни тень и тело.","Почему контекст важнее формы?"],
+
+["Поглощение","Сравни тела соседних свечей.","Какие правила используешь?"],
+
+["Риск","Рассчитай допустимую потерю.","Какие ограничения у расчёта?"],
+
+["Психология","Определи возможный эмоциональный триггер.","Какое правило предотвратит импульсивность?"],
+
+["Объём","Уточни источник данных.","Какие выводы нельзя сделать из объёма?"],
+
+["Сессии","Сравни разные часы.","Как проверить расписание?"],
+
+["Статистика","Проверь стратегию на выборке.","Какие факторы искажают выводы?"]
+
+];
+
+const lessons=[];modules.forEach((m,i)=>{for(let j=0;j<3;j++)lessons.push({id:i*3+j,module:i,title:["Теория: ","Практика: ","Разбор: "][j]+m[0],body:m[3],principle:m[4],task:detail[i][j===0?1:2]})});
+
+const patterns=[
+
+["Бычий флаг","Продолжение","up","Импульс вверх и короткая нисходящая коррекция.","Наблюдай за пробоем верхней границы.","Пробой вниз нарушает учебную гипотезу."],
+
+["Медвежий флаг","Продолжение","down","Импульс вниз и небольшая коррекция вверх.","Наблюдай за выходом ниже коррекции.","Выход вверх нарушает гипотезу."],
+
+["Чаша с ручкой","Продолжение","up","Округлое основание и более короткая консолидация около сопротивления.","Пробой сопротивления после ручки.","Потеря основания или незавершённая форма."],
+
+["Двойная вершина","Разворот","down","Два пика около одной области с промежуточным минимумом.","Пробой промежуточного минимума.","Устойчивый выход выше двух вершин."],
+
+["Двойное дно","Разворот","up","Два минимума около одной области с промежуточным максимумом.","Пробой промежуточного максимума.","Устойчивый выход ниже двух минимумов."],
+
+["Голова и плечи","Разворот","down","Три пика, центральный выше боковых.","Пробой линии шеи.","Обновление максимума головы."],
+
+["Перевёрнутая голова и плечи","Разворот","up","Три впадины, центральная глубже боковых.","Пробой линии шеи вверх.","Обновление минимума головы."],
+
+["Восходящий треугольник","Треугольник","up","Почти горизонтальное сопротивление и растущие минимумы.","Подтверждённый пробой вверх.","Выход вниз нарушает бычью гипотезу."],
+
+["Нисходящий треугольник","Треугольник","down","Почти горизонтальная поддержка и снижающиеся максимумы.","Подтверждённый пробой вниз.","Выход вверх нарушает гипотезу."],
+
+["Симметричный треугольник","Треугольник","either","Сходящиеся границы и уменьшающийся диапазон.","Дождись выхода за одну из границ.","Нет подтверждённого выхода."],
+
+["Бычий вымпел","Продолжение","up","Импульс вверх и небольшая сходящаяся консолидация.","Выход вверх из вымпела.","Выход вниз."],
+
+["Медвежий вымпел","Продолжение","down","Импульс вниз и сужающаяся консолидация.","Выход вниз из вымпела.","Выход вверх."],
+
+["Восходящий клин","Клин","down","Сходящиеся границы наклонены вверх.","В учебном сценарии — выход вниз.","Устойчивый выход вверх."],
+
+["Нисходящий клин","Клин","up","Сходящиеся границы наклонены вниз.","В учебном сценарии — выход вверх.","Устойчивый выход вниз."],
+
+["Прямоугольник","Диапазон","either","Цена колеблется между верхней и нижней границами.","Подтверждённый выход из диапазона.","Цена продолжает двигаться внутри."],
+
+["Восходящий канал","Канал","up","Цена движется между параллельными восходящими границами.","Сохранение восходящей структуры.","Пробой нижней границы."],
+
+["Нисходящий канал","Канал","down","Цена движется между параллельными нисходящими границами.","Сохранение нисходящей структуры.","Пробой верхней границы."],
+
+["Пробой и ретест","Пробой","up","Цена выходит над сопротивление и повторно проверяет его.","Реакция после ретеста.","Возврат внутрь диапазона."],
+
+["Ложный пробой","Пробой","down","Цена выходит выше уровня, затем возвращается внутрь.","Возврат под уровень и подтверждение.","Закрепление выше уровня."],
+
+["Пин-бар","Свечи","up","Свеча с длинной тенью и небольшим телом.","Контекстная реакция после свечи.","Отсутствие подтверждения."],
+
+["Бычье поглощение","Свечи","up","Бычье тело перекрывает предыдущее медвежье тело.","Закрытие и контекстное подтверждение.","Цена обновляет локальный минимум."],
+
+["Медвежье поглощение","Свечи","down","Медвежье тело перекрывает предыдущее бычье тело.","Закрытие и контекстное подтверждение.","Цена проходит выше локального максимума."],
+
+["Утренняя звезда","Свечи","up","Медвежья свеча, небольшое тело, затем сильная бычья свеча.","Закрытие третьей свечи и контекст.","Обновление минимума модели."],
+
+["Вечерняя звезда","Свечи","down","Бычья свеча, небольшое тело, затем сильная медвежья свеча.","Закрытие третьей свечи и контекст.","Обновление максимума модели."]
+
+].map((p,i)=>({id:i,name:p[0],cat:p[1],dir:p[2],desc:p[3],confirm:p[4],invalid:p[5]}));
+
+let state={done:[],active:0,balance:1000,pnl:0,trades:0,journal:[],best:0,patternScore:0,patternAttempts:0,checks:[]};
+
+try{state={...state,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){}
+
+if(!Array.isArray(state.done))state.done=[];if(!Array.isArray(state.journal))state.journal=[];if(!Array.isArray(state.checks))state.checks=[];
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+let seed=9234,candles=[],selected=0,answered=false,activeTrade=null,timer=null;
+
+function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
+
+function genCandles(){seed=Date.now()>>>0;candles=[];let p=.5;for(let i=0;i<100;i++){let o=p,m=(rand()-.49)*.07;p=Math.max(.08,Math.min(.92,p+m));candles.push({o,c:p,h:Math.min(.97,Math.max(o,p)+rand()*.05),l:Math.max(.03,Math.min(o,p)-rand()*.05)})}drawChart()}
+
+function drawChart(){let cv=$("chart");if(!cv)return;let r=cv.getBoundingClientRect();if(!r.width||!r.height)return;let d=Math.min(devicePixelRatio||1,2),w=r.width,h=r.height;cv.width=w*d;cv.height=h*d;let c=cv.getContext("2d");c.setTransform(d,0,0,d,0,0);c.fillStyle="#111522";c.fillRect(0,0,w,h);let L=7,R=56,T=12,B=20,data=candles.slice(-Math.max(20,Math.floor((w-L-R)/6))),min=Math.min(...data.map(v=>v.l))-.02,max=Math.max(...data.map(v=>v.h))+.02,rg=max-min||1,cw=w-L-R,ch=h-T-B,y=v=>T+(max-v)/rg*ch,step=cw/data.length;c.strokeStyle="#ffffff12";c.font="10px sans-serif";for(let i=0;i<=5;i++){let yy=T+ch*i/5;c.beginPath();c.moveTo(L,yy);c.lineTo(w-R,yy);c.stroke();c.fillStyle="#8a93ad";c.fillText((1.1-i*rg/5).toFixed(3),w-R+3,yy+3)}for(let i=0;i<=5;i++){let xx=L+cw*i/5;c.beginPath();c.moveTo(xx,T);c.lineTo(xx,h-B);c.stroke()}data.forEach((v,i)=>{let x=L+i*step+step/2,up=v.c>=v.o,col=up?"#39d96b":"#ff4d58";c.strokeStyle=col;c.lineWidth=Math.max(1,step*.13);c.beginPath();c.moveTo(x,y(v.h));c.lineTo(x,y(v.l));c.stroke();c.fillStyle=col;c.fillRect(x-Math.max(1,step*.31),Math.min(y(v.o),y(v.c)),Math.max(2,step*.62),Math.max(1.5,Math.abs(y(v.o)-y(v.c))))});let v=data[data.length-1],yy=y(v.c);c.setLineDash([4,4]);c.strokeStyle="#75aaff80";c.beginPath();c.moveTo(L,yy);c.lineTo(w-R,yy);c.stroke();c.setLineDash([]);c.fillStyle="#426fa8";c.fillRect(w-R,yy-10,R,20);c.fillStyle="#fff";c.fillText((1.1-v.c*.1).toFixed(4),w-R+3,yy+3);$("candleCount").textContent=data.length+" свечей"}
+
+$("refresh").onclick=()=>{genCandles();notify("Учебный график обновлён")};$("asset").onchange=()=>{$("activeAsset").textContent=$("asset").value;genCandles()};window.addEventListener("resize",drawChart);
+
+function renderPatternMenu(){let q=$("patternSearch").value.toLowerCase(),arr=patterns.map((p,i)=>({...p,i})).filter(p=>(p.name+" "+p.cat).toLowerCase().includes(q));$("patternMenu").innerHTML=arr.map(p=>`<button class="pattern-btn ${p.i===selected?"active":""}" data-p="${p.i}">${esc(p.name)}<small>${esc(p.cat)}</small></button>`).join("")||'<p class="muted">Ничего не найдено</p>'}
+
+function pts(id,w,h){let m={0:[[.02,.8],[.13,.65],[.25,.2],[.38,.43],[.48,.48],[.58,.56],[.7,.52],[.82,.6],[.96,.22]],1:[[.02,.2],[.13,.35],[.25,.8],[.38,.58],[.48,.53],[.58,.45],[.7,.5],[.82,.4],[.96,.82]],2:[[.02,.2],[.14,.45],[.26,.72],[.4,.84],[.53,.8],[.66,.63],[.78,.32],[.85,.42],[.91,.48],[.97,.2]],3:[[.02,.75],[.15,.2],[.29,.55],[.44,.18],[.58,.55],[.72,.22],[.84,.55],[.97,.8]],4:[[.02,.2],[.15,.75],[.29,.45],[.44,.82],[.58,.46],[.72,.78],[.84,.43],[.97,.2]],5:[[.02,.7],[.15,.4],[.28,.55],[.43,.12],[.58,.55],[.72,.34],[.84,.55],[.97,.8]],6:[[.02,.3],[.15,.6],[.28,.45],[.43,.88],[.58,.45],[.72,.67],[.84,.45],[.97,.2]],7:[[.02,.8],[.14,.2],[.28,.6],[.42,.2],[.56,.48],[.7,.2],[.84,.35],[.97,.1]],8:[[.02,.2],[.14,.8],[.28,.4],[.42,.8],[.56,.5],[.7,.8],[.84,.6],[.97,.9]],9:[[.02,.15],[.14,.78],[.28,.25],[.42,.67],[.56,.35],[.7,.58],[.84,.43],[.97,.5]],10:[[.02,.85],[.13,.6],[.26,.25],[.39,.4],[.52,.32],[.65,.45],[.78,.35],[.9,.42],[.98,.12]],11:[[.02,.15],[.13,.4],[.26,.75],[.39,.6],[.52,.68],[.65,.54],[.78,.62],[.9,.55],[.98,.86]]};return (m[id]||m[9]).map(v=>[w*(.04+v[0]*.92),h*(.1+v[1]*.8)])}
+
+function drawDiagram(){let cv=$("diagram");if(!cv)return;let r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2),w=r.width,h=r.height;cv.width=w*d;cv.height=h*d;let c=cv.getContext("2d");c.setTransform(d,0,0,d,0,0);c.fillStyle="#0b0e19";c.fillRect(0,0,w,h);c.strokeStyle="#ffffff0d";for(let i=1;i<6;i++){c.beginPath();c.moveTo(w*i/6,0);c.lineTo(w*i/6,h);c.stroke()}let arr=pts(selected,w,h);c.strokeStyle="#8c91a8";c.lineWidth=2;c.beginPath();arr.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));c.stroke();arr.forEach((p,i)=>{if(!i)return;let prev=arr[i-1],col=p[1]<prev[1]?"#39d96b":"#ff4d58";c.strokeStyle=col;c.beginPath();c.moveTo(p[0],p[1]-7);c.lineTo(p[0],p[1]+7);c.stroke();c.fillStyle=col;c.fillRect(p[0]-3,Math.min(p[1],prev[1]),6,Math.max(3,Math.abs(p[1]-prev[1])))});c.fillStyle="#a1a9c0";c.font="10px sans-serif";c.fillText("СХЕМА ПАТТЕРНА · НЕ КОТИРОВКИ",8,13)}
+
+function renderPattern(){answered=false;let p=patterns[selected];$("patternDetail").innerHTML=`<div class="muted">PATTERN LAB / ${selected+1} ИЗ ${patterns.length}</div><h3>${esc(p.name)}</h3><span class="muted">${esc(p.cat.toUpperCase())}</span><p>${esc(p.desc)}</p><div class="diagram"><canvas id="diagram"></canvas></div><div class="note"><b>ЧТО ИСКАТЬ</b><br>${esc(p.confirm)}<br><br><b>ОТМЕНА СЦЕНАРИЯ</b><br>${esc(p.invalid)}</div><p>Какое направление соответствует этой учебной модели?</p><div class="answers"><button class="answer" data-dir="up">▲ ВВЕРХ / КУПИТЬ</button><button class="answer" data-dir="down">▼ ВНИЗ / ПРОДАТЬ</button></div><div id="patternFeedback" class="result">Выбери ответ — появится разбор.</div><div class="hero-actions"><button class="btn primary" id="nextPattern">Следующий паттерн →</button><a class="btn" href="#terminal">К графику ↑</a></div><p class="muted">Схема иллюстративная. Реальные формации могут выглядеть иначе и не гарантируют исход.</p>`;drawDiagram();renderPatternMenu()}
+
+$("patternMenu").onclick=e=>{let b=e.target.closest("[data-p]");if(!b)return;selected=Number(b.dataset.p);renderPattern()};$("patternSearch").oninput=renderPatternMenu;
+
+$("patternDetail").onclick=e=>{let b=e.target.closest("[data-dir]");if(b&&!answered){answered=true;let p=patterns[selected],d=b.dataset.dir,ok=p.dir==="either"||p.dir===d;state.patternAttempts++;if(ok)state.patternScore++;save();[...$("patternDetail").querySelectorAll("[data-dir]")].forEach(x=>{x.disabled=true;if(p.dir===x.dataset.dir)x.classList.add("correct");else if(x===b)x.classList.add("wrong")});$("patternFeedback").innerHTML=`<b style="color:${ok?"var(--green)":"var(--red)"}">${ok?"Верно для учебного сценария":"Не совпадает с заданным сценарием"}</b><br>${esc(p.confirm)}<br><br><b>Отмена:</b> ${esc(p.invalid)}<br><br>На реальном рынке фигура может не сработать.`}if(e.target.closest("#nextPattern")){selected=(selected+1)%patterns.length;renderPattern()}};
+
+function renderModules(){$("moduleCards").innerHTML=modules.map((m,i)=>{let n=lessons.filter(l=>l.module===i&&state.done.includes(l.id)).length;return `<div class="card"><div class="emoji">${m[2]}</div><h3>${String(i+1).padStart(2,"0")} · ${esc(m[0])}</h3><p>${esc(m[1])}</p><div class="cardfoot"><span class="muted">${n}/3 урока</span><button class="btn" data-module="${i}">Открыть →</button></div><div class="progress"><span style="width:${n/3*100}%"></span></div></div>`}).join("")}
+
+function renderLessonList(){let q=$("lessonSearch").value.toLowerCase();$("lessonList").innerHTML=lessons.filter(l=>l.title.toLowerCase().includes(q)).map(l=>`<button class="lesson-item ${l.id===state.active?"active":""}" data-lesson="${l.id}">${state.done.includes(l.id)?"✓":"○"} ${esc(l.title)}</button>`).join("")||'<p class="muted">Ничего не найдено</p>'}
+
+function openLesson(id){state.active=Math.max(0,Math.min(lessons.length-1,id));let l=lessons[state.active],m=modules[l.module];$("lessonView").innerHTML=`<div class="muted">МОДУЛЬ ${l.module+1} / УРОК ${l.id%3+1}</div><h3>${esc(l.title)}</h3><div class="note"><b>ТЕМА</b><br>${esc(l.body)}</div><p>${esc(m[3])}</p><h4>Важный принцип</h4><p>${esc(m[4])}</p><h4>Практическое задание</h4><p>${esc(l.task)}</p><div class="note"><b>Самопроверка</b><br>Что подтвердит гипотезу? Что её опровергнет? Какие есть альтернативы?</div><div class="hero-actions"><button class="btn" id="prev" ${l.id===0?"disabled":""}>← Назад</button><button class="btn primary" id="mark">${state.done.includes(l.id)?"✓ Пройдено":"Отметить пройденным"}</button><button class="btn" id="next" ${l.id===lessons.length-1?"disabled":""}>Далее →</button></div>`;$("prev").onclick=()=>openLesson(state.active-1);$("next").onclick=()=>openLesson(state.active+1);$("mark").onclick=()=>{if(!state.done.includes(l.id))state.done.push(l.id);save();renderAll();openLesson(l.id);notify("Прогресс сохранён")};renderLessonList();save()}
+
+$("moduleCards").onclick=e=>{let b=e.target.closest("[data-module]");if(b){openLesson(Number(b.dataset.module)*3);$("lessons").scrollIntoView({behavior:"smooth"})}};$("lessonList").onclick=e=>{let b=e.target.closest("[data-lesson]");if(b)openLesson(Number(b.dataset.lesson))};$("lessonSearch").oninput=renderLessonList;
+
+function updateAccount(){$("balance").textContent=fmt(state.balance);$("pnl").textContent=(state.pnl>=0?"+":"")+fmt(state.pnl);$("trades").textContent=state.trades;$("activeAsset").textContent=$("asset").value}
+
+function startTrade(dir){if(activeTrade){notify("Дождись завершения демо-сделки");return}let amount=Number($("amount").value),seconds=Number($("duration").value);if(!Number.isFinite(amount)||amount<=0||amount>1000||amount>state.balance){notify("Проверь сумму сделки");return}let t={dir,amount,seconds,price:candles.at(-1).c};activeTrade=t;$("buy").disabled=$("sell").disabled=true;let n=seconds;$("tradeResult").innerHTML=`СИМУЛЯЦИЯ<br><b id="timer">${n} сек.</b>`;function tick(){if(activeTrade!==t)return;n--;$("timer").textContent=Math.max(n,0)+" сек.";if(n<=0){let now=candles.at(-1).c,win=(dir==="buy"&&now>t.price)||(dir==="sell"&&now<t.price),delta=win?amount*.7:-amount;state.balance+=delta;state.pnl+=delta;state.trades++;activeTrade=null;$("buy").disabled=$("sell").disabled=false;save();updateAccount();$("tradeResult").innerHTML=`<b style="color:${win?"var(--green)":"var(--red)"}">${win?"Условный плюс":"Условный минус"} ${fmt(Math.abs(delta))}</b><br>Результат симуляции, не реальная котировка.`;genCandles()}else timer=setTimeout(tick,1000)}timer=setTimeout(tick,1000)}
+
+$("buy").onclick=()=>startTrade("buy");$("sell").onclick=()=>startTrade("sell");
+
+$("calc").onclick=()=>{let c=+$("capital").value,r=+$("risk").value,s=+$("stop").value;if(![c,r,s].every(Number.isFinite)||c<=0||r<=0||r>100||s<=0||s>100){notify("Проверь параметры");return}$("riskResult").innerHTML=`ТЕОРЕТИЧЕСКИЙ РИСК<br><b>${fmt(c*r/100)}</b><p class="muted">Условный размер позиции: ${fmt((c*r/100)/(s/100))}. Без комиссий и проскальзывания.</p>`};
+
+function renderJournal(){$("journalList").innerHTML=state.journal.slice().reverse().map((j,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line);font-size:11px"><b>${esc(j.asset)}</b><br>${esc(j.idea)}<br><span class="muted">${esc(j.review)} · ${esc(j.date)}</span><br><button class="btn" data-del="${state.journal.length-1-i}">Удалить</button></div>`).join("")||'<p class="muted">Записей пока нет</p>'}
+
+$("saveJournal").onclick=()=>{let idea=$("jIdea").value.trim();if(!idea){notify("Добавь гипотезу");return}state.journal.push({asset:$("jAsset").value,idea,review:$("jReview").value,date:new Date().toLocaleString("ru-RU")});save();renderJournal();$("jIdea").value="";$("jReview").value="";notify("Сохранено")};$("journalList").onclick=e=>{let b=e.target.closest("[data-del]");if(!b)return;state.journal.splice(+b.dataset.del,1);save();renderJournal()};$("exportJournal").onclick=()=>download("ava-journal.json",state.journal);$("exportProgress").onclick=()=>download("ava-progress.json",state);
+
+const checkItems=["Определил контекст","Отметил паттерн","Дождался подтверждения","Записал альтернативный сценарий","Определил риск","Указал условие отмены","Запланировал разбор"];
+
+function renderChecks(){$("checklist").innerHTML=checkItems.map((s,i)=>`<label style="display:flex;gap:8px;margin:12px 0;font-size:12px"><input type="checkbox" data-check="${i}" ${state.checks.includes(i)?"checked":""}>${s}</label>`).join("")}
+
+$("checklist").onchange=e=>{let i=Number(e.target.dataset.check);if(!Number.isInteger(i))return;state.checks=e.target.checked?[...new Set([...state.checks,i])]:state.checks.filter(n=>n!==i);save()};$("resetChecklist").onclick=()=>{state.checks=[];save();renderChecks()};
+
+const qs=[
+
+["Что показывает свеча OHLC?",["Открытие, максимум, минимум и закрытие","Только объём"],0,"OHLC описывает четыре ценовых значения."],
+
+["Гарантирует ли бычий флаг рост?",["Да, всегда","Нет, возможен ложный пробой"],1,"Паттерн не гарантирует продолжения."],
+
+["Что подтверждает двойную вершину?",["Пробой промежуточного минимума","Любое касание пика"],0,"Обычно наблюдают за линией шеи."],
+
+["Что такое чаша с ручкой?",["Округлое основание и консолидация","Только две вершины"],0,"Это классическая графическая формация."],
+
+["Куда может пробиться симметричный треугольник?",["Только вверх","В любую сторону"],1,"Направление заранее неизвестно."],
+
+["Зачем нужен риск-менеджмент?",["Гарантировать прибыль","Контролировать потенциальные потери"],1,"Он помогает контролировать риск."],
+
+["Что такое FOMO?",["Страх упустить движение","Вид свечи"],0,"FOMO может провоцировать импульсивные сделки."],
+
+["Что такое ретест?",["Повторная проверка области","Размер позиции"],0,"Ретест может и не произойти."],
+
+["Что такое бэктест?",["Проверка правил на истории","Реальный сигнал"],0,"Прошлое не гарантирует будущее."],
+
+["Что нужно определить заранее?",["Только желаемую прибыль","План, риск и условие отмены"],1,"Условия отмены важны до сделки."],
+
+["Что такое медвежий флаг?",["Импульс вниз и коррекция","Округлое основание"],0,"Это возможная модель продолжения."],
+
+["Что означает просадка?",["Снижение от предыдущего максимума","Размер спреда"],0,"Просадка измеряет снижение капитала."],
+
+["Может ли уровень быть пробит?",["Нет","Да"],1,"Уровень не гарантирует реакцию."],
+
+["Что важно при анализе паттерна?",["Контекст и подтверждение","Только название"],0,"Нужно оценивать контекст и альтернативы."],
+
+["Что такое волатильность?",["Изменчивость цены","Размер депозита"],0,"Волатильность описывает колебания цены."]
+
+];let qi=0,score=0,qa=false;
+
+function renderQuiz(){$("quizCounter").textContent=`ВОПРОС ${qi+1} / ${qs.length}`;$("question").textContent=qs[qi][0];$("options").innerHTML=qs[qi][1].map((s,i)=>`<button class="answer" data-answer="${i}">${esc(s)}</button>`).join("");$("feedback").textContent="";$("nextQ").disabled=false;qa=false}
+
+$("options").onclick=e=>{let b=e.target.closest("[data-answer]");if(!b||qa)return;qa=true;let q=qs[qi],n=+b.dataset.answer;[...$("options").children].forEach((x,i)=>{x.disabled=true;if(i===q[2])x.classList.add("correct");else if(i===n)x.classList.add("wrong")});if(n===q[2])score++;$("feedback").textContent=(n===q[2]?"Верно. ":"Не совсем. ")+q[3]};
+
+$("nextQ").onclick=()=>{if(!qa){notify("Выбери ответ");return}if(qi<qs.length-1){qi++;renderQuiz();return}let p=Math.round(score/qs.length*100);state.best=Math.max(state.best,p);save();renderAll();$("question").textContent=`Результат: ${score}/${qs.length} (${p}%)`;$("options").innerHTML="";$("feedback").textContent="Учебный тест проверяет знания, а не доходность.";$("nextQ").disabled=true};$("restartQ").onclick=()=>{qi=0;score=0;renderQuiz()};
+
+const terms=[["OHLC","Открытие, максимум, минимум и закрытие."],["Тренд","Направленная структура движения."],["Поддержка","Область возможного интереса покупателей."],["Сопротивление","Область возможного давления продавцов."],["Бычий флаг","Импульс вверх с короткой коррекцией."],["Медвежий флаг","Импульс вниз с коррекцией."],["Чаша с ручкой","Округлое основание и консолидация."],["Двойная вершина","Два пика с промежуточным минимумом."],["Двойное дно","Два минимума с промежуточным максимумом."],["Голова и плечи","Три пика с более высокой головой."],["Треугольник","Сходящиеся границы движения."],["Вымпел","Короткая консолидация после импульса."],["Клин","Сходящиеся наклонные границы."],["Ретест","Повторная проверка области после пробоя."],["Ложный пробой","Выход за уровень и возврат."],["Price Action","Анализ поведения цены."],["Ликвидность","Возможность торговать без чрезмерного влияния на цену."],["Волатильность","Изменчивость цены."],["Спред","Разница Bid и Ask."],["Stop-loss","Условие ограничения убытка; исполнение не гарантировано по заданной цене."],["Take-profit","Условие фиксации результата."],["FOMO","Страх упустить возможность."],["Просадка","Снижение капитала от предыдущего максимума."],["Бэктест","Проверка правил на исторических данных."],["Проскальзывание","Разница ожидаемой и фактической цены исполнения."],["Математическое ожидание","Средний ожидаемый результат при заданных вероятностях."],["Таймфрейм","Временной интервал свечи."],["Импульс","Относительно направленное движение."],["Коррекция","Движение против предыдущего направления."],["Пин-бар","Свеча с длинной тенью."],["Поглощение","Тело новой свечи перекрывает тело предыдущей."]];
+
+function renderTerms(){let q=$("termSearch").value.toLowerCase();$("terms").innerHTML=terms.filter(t=>t.join(" ").toLowerCase().includes(q)).map(t=>`<div class="term"><strong>${esc(t[0])}</strong><p>${esc(t[1])}</p></div>`).join("")||'<p class="muted">Не найдено</p>'}
+
+$("termSearch").oninput=renderTerms;
+
+function renderProgress(){let pct=Math.round(state.done.length/lessons.length*100);$("percent").textContent=pct+"%";$("quickProgress").textContent=pct+"%";$("progressBar").style.width=pct+"%";$("doneCount").textContent=`${state.done.length} из ${lessons.length} уроков`;$("achievements").innerHTML=[["🚀","Первый урок",state.done.length>=1],["📚","10 уроков",state.done.length>=10],["🎯","30 уроков",state.done.length>=30],["👑","Все уроки",state.done.length>=lessons.length],["🧠","100% теста",state.best>=100],["🔎","5 паттернов",state.patternAttempts>=5]].map(a=>`<div style="padding:10px 0;border-bottom:1px solid var(--line);font-size:12px">${a[2]?a[0]:"🔒"} ${a[1]} <span class="muted">${a[2]?"Получено":"В процессе"}</span></div>`).join("")}
+
+function renderAll(){renderModules();renderLessonList();renderProgress()}
+
+$("continue").onclick=()=>{let l=lessons.find(x=>!state.done.includes(x.id));openLesson(l?l.id:0);$("lessons").scrollIntoView({behavior:"smooth"})};
+
+function ai(s){let q=s.toLowerCase(),p=patterns.find(p=>q.includes(p.name.toLowerCase()));if(p)return p.name+": "+p.desc+"\nПодтверждение: "+p.confirm+"\nОтмена: "+p.invalid;if(q.includes("риск"))return "До сделки определи допустимый убыток, размер позиции и условие отмены. Учитывай комиссии и проскальзывание.";if(q.includes("свеч"))return "Свеча показывает OHLC. Изучай тело, тени и контекст структуры. Одна свеча не гарантирует направление.";if(q.includes("флаг"))return "Бычий флаг — импульс вверх с короткой коррекцией. Медвежий — импульс вниз с коррекцией. Оба могут дать ложный пробой.";if(q.includes("привет"))return "Привет! Я учебный помощник AVA Community. Спроси о паттернах, свечах, структуре или риске.";return "Я работаю в демонстрационном режиме. Спроси о бычьем флаге, чаше с ручкой, двойной вершине, треугольниках или риск-менеджменте."}
+
+$("chatForm").onsubmit=e=>{e.preventDefault();let s=$("chatInput").value.trim();if(!s)return;function add(t,cl){let d=document.createElement("div");d.className="msg "+cl;d.textContent=t;$("chatLog").appendChild(d)}add(s,"user");$("chatInput").value="";add(ai(s),"bot");$("chatLog").scrollTop=$("chatLog").scrollHeight};
+
+$("telegram").onclick=e=>{if($("telegram").getAttribute("href")==="https://t.me/"){e.preventDefault();notify("Замени ссылку на свой Telegram")}};
+
+function init(){genCandles();renderPattern();renderAll();openLesson(state.active||0);renderJournal();renderTerms();renderQuiz();renderChecks();updateAccount()}
+
+init();
+
+</script>
+
+</body>
+
+</html>
