@@ -574,7 +574,7 @@ function ai(s){let q=s.toLowerCase(),p=patterns.find(p=>q.includes(p.name.toLowe
 
 $("chatForm").onsubmit=e=>{e.preventDefault();let s=$("chatInput").value.trim();if(!s)return;function add(t,cl){let d=document.createElement("div");d.className="msg "+cl;d.textContent=t;$("chatLog").appendChild(d)}add(s,"user");$("chatInput").value="";add(ai(s),"bot");$("chatLog").scrollTop=$("chatLog").scrollHeight};
 
-$("telegram").onclick=e=>{if($("telegram").getAttribute("href")==="https://t.me/"){e.preventDefault();notify("Замени ссылку на свой Telegram")}};
+$("telegram").onclick=e=>{if($("telegram").getAttribute("href")==="https://t.me/m/56bsIaLqZjky"){e.preventDefault();notify("Замени ссылку на свой Telegram")}};
 
 function init(){genCandles();renderPattern();renderAll();openLesson(state.active||0);renderJournal();renderTerms();renderQuiz();renderChecks();updateAccount()}
 
